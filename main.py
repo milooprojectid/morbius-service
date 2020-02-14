@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 from flask import Flask, jsonify, make_response,request,jsonify
 from os import getenv, path
+
 import pickle
 from tensorflow.python.keras.models import load_model
 from tensorflow.python.keras.preprocessing.text import Tokenizer
@@ -25,8 +26,8 @@ def handler():
 def getSentiment():
     inputData = request.get_json()
     sentenceData = inputData['sentence']
-    model = load_model('/home/alo-tedy/Documents/myProject/just-rest/sentiment_save_file/sentiment.h5')
-    tokenizer = pickle.load(open('/home/alo-tedy/Documents/myProject/just-rest/sentiment_save_file/tokenizer.pkl','rb'))
+    model = load_model('./sentiment_save_file/sentiment.h5')
+    tokenizer = pickle.load(open('./sentiment_save_file/tokenizer.pkl','rb'))
     
     class_label = [1, 0, -1]
     name_class = ['positive', 'neutral', 'negative']
@@ -61,4 +62,4 @@ def postJsonHandler():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=getenv('APP_PORT'))
+    app.run(debug=getenv('APP_PORT') == "true", host='0.0.0.0', port=getenv('APP_PORT') or '5010')
