@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: morbius-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: morbius-service
+  template:
+    metadata:
+      labels:
+        app: morbius-service
+    spec:
+      containers:
+        - name: morbius-service
+          image: asia.gcr.io/miloo-phoenix/morbius
+          ports:
+            - containerPort: 5001
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: morbius-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    app: morbius-service
+  ports:
+    - port: 5001
+      targetPort: 8010

@@ -37,4 +37,4 @@ def handler():
         return jsonify({ 'message': 'something went wrong '})
 
 if __name__ == '__main__':
-    app.run(debug=getenv('APP_PORT') == "true", host='0.0.0.0', port=getenv('APP_PORT') or '5010')
+    app.run(debug=getenv('APP_PORT') == "true", host='0.0.0.0', port=getenv('APP_PORT') or '5001')
