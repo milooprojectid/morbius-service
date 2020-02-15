@@ -1,0 +1,10 @@
+steps:
+  - name: "gcr.io/cloud-builders/gsutil"
+    args: ["cp", "gs://miloo-bucket/environments/morbius", "./.env"]
+
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      ["build", "-t", "asia.gcr.io/miloo-phoenix/morbius", "."]
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "asia.gcr.io/miloo-phoenix/morbius"]
