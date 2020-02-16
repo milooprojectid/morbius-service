@@ -29,5 +29,5 @@ spec:
   selector:
     app: morbius-service
   ports:
-    - port: 5001
-      targetPort: 8010
+    - port: 8010
+      targetPort: 5001
