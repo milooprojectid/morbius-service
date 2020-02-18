@@ -19,14 +19,14 @@ def handler():
     try:
         body = request.get_json()
 
-        sentence = body['text']
+        sentence = body['text'] if 'text' in body else ''
         if sentence == '':
             return jsonify({'message': 'text is required'})
 
-        sentence = TOKENIZER.texts_to_sequences([sentence])
-        sentence = pad_sequences(sentence, maxlen=100, padding='pre', truncating='pre')
+        tokenized = TOKENIZER.texts_to_sequences([sentence])
+        sequences = pad_sequences(tokenized, maxlen=100, padding='pre', truncating='pre')
 
-        model_result = int(MODEL.predict_classes(sentence))
+        model_result = int(MODEL.predict_classes(sequences))
         description = CLASS_NAME[model_result]
 
         return jsonify({
