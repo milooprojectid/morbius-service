@@ -19,7 +19,7 @@ def handler():
     try:
         body = request.get_json()
 
-        sentence = body['text'] if 'text' in body else ''
+        sentence = body['text']
         if sentence == '':
             return jsonify({'message': 'text is required'})
 
