@@ -19,8 +19,8 @@ def handler():
     try:
         body = request.get_json()
 
-        sentence = body['text']
-        if sentence == '' or sentence == None:
+        sentence = body['text'] if 'text' in body else ''
+        if sentence == '':
             return jsonify({'message': 'text is required'})
 
         sentence = TOKENIZER.texts_to_sequences([sentence])
@@ -31,7 +31,7 @@ def handler():
 
         return jsonify({
             'message': 'sentiment analysis finished',
-            'data': { 'class': model_result, 'description': description }
+            'data': { 'class': model_result, 'description': description, 'text': sentence }
         })
     except:
         return jsonify({ 'message': 'something went wrong '})
