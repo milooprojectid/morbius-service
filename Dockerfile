@@ -6,6 +6,7 @@ COPY ./main.py /app
 COPY ./requirements.txt /app
 COPY ./.env /app
 COPY ./models /app/models
+COPY ./modules /app/modules
 
 RUN pip install -r requirements.txt
 

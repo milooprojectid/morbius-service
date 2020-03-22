@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: morbius-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: morbius-service
@@ -17,6 +17,7 @@ spec:
           image: asia.gcr.io/miloo-phoenix/morbius
           ports:
             - containerPort: 5001
+            - containerPort: 50051
 
 ---
 
@@ -31,3 +32,7 @@ spec:
   ports:
     - port: 8010
       targetPort: 5001
+      name: morbius-rest-port
+    - port: 8015
+      targetPort: 50051
+      name: morbius-grpc-port

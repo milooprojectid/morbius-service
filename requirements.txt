@@ -1,3 +1,5 @@
 python-dotenv
 tensorflow
 Flask==1.0.2
+grpcio
+protobuf
