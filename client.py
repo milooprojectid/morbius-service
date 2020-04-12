@@ -1,8 +1,8 @@
 from __future__ import print_function
 import logging
 import grpc
-import modules.morbius_pb2 as morbius_pb2
-import modules.morbius_pb2_grpc as morbius_pb2_grpc
+import modules.protobuf.morbius_pb2 as morbius_pb2
+import modules.protobuf.morbius_pb2_grpc as morbius_pb2_grpc
 
 
 def run():

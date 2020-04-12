@@ -1,16 +1,8 @@
 from flask import Flask, jsonify, make_response,request,jsonify
 from os import getenv, path
-
-import pickle
-from tensorflow.python.keras.models import load_model
-from tensorflow.python.keras.preprocessing.text import Tokenizer
-from tensorflow.python.keras.preprocessing.sequence import pad_sequences
+import modules.sentiment as sentiment
 
 app = Flask(__name__)
-
-MODEL = load_model('./models/sentiment.h5')
-TOKENIZER = pickle.load(open('./models/tokenizer.pkl','rb'))
-CLASS_NAME = ['positive', 'neutral', 'negative']
 
 @app.route('/',methods = ['POST'])
 def handler():
@@ -21,11 +13,8 @@ def handler():
         if sentence == '':
             return jsonify({'message': 'text is required'})
 
-        tokenized = TOKENIZER.texts_to_sequences([sentence])
-        sequences = pad_sequences(tokenized, maxlen=100, padding='pre', truncating='pre')
-
-        model_result = int(MODEL.predict_classes(sequences))
-        description = CLASS_NAME[model_result]
+        # sentiment process
+        model_result, description = sentiment.analyze(sentence)
 
         return jsonify({
             'message': 'sentiment analysis finished',

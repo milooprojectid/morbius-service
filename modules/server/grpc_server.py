@@ -1,18 +1,10 @@
 import grpc
-import modules.morbius_pb2_grpc as morbius_grpc
-import modules.morbius_pb2 as morbius_pb
-
-import pickle
-from tensorflow.python.keras.models import load_model
-from tensorflow.python.keras.preprocessing.text import Tokenizer
-from tensorflow.python.keras.preprocessing.sequence import pad_sequences
-
 from concurrent import futures
 from os import getenv
 
-MODEL = load_model('./models/sentiment.h5')
-TOKENIZER = pickle.load(open('./models/tokenizer.pkl','rb'))
-CLASS_NAME = ['positive', 'neutral', 'negative']
+import modules.protobuf.morbius_pb2_grpc as morbius_grpc
+import modules.protobuf.morbius_pb2 as morbius_pb
+import modules.sentiment as sentiment
 
 class MorbiusGrpcServer(morbius_grpc.MorbiusServiceServicer):
     def Sentiment(self, request, context):
@@ -20,11 +12,8 @@ class MorbiusGrpcServer(morbius_grpc.MorbiusServiceServicer):
         if sentence == '':
             raise ValueError('input cannot be null')
 
-        tokenized = TOKENIZER.texts_to_sequences([sentence])
-        sequences = pad_sequences(tokenized, maxlen=100, padding='pre', truncating='pre')
-
-        model_result = int(MODEL.predict_classes(sequences))
-        description = CLASS_NAME[model_result]
+        # sentiment process 
+        model_result, description = sentiment.analyze(sentence)
 
         return morbius_pb.SentimentResponse(
             model_result=model_result,
