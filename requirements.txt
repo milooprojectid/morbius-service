@@ -1,6 +1,6 @@
 python-dotenv
 tensorflow
-Flask==1.0.2
+Flask==2.3.2
 grpcio
 protobuf
 tensorflowjs
